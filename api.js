@@ -39,7 +39,7 @@ module.exports = (function() {
             api.get("/add/:post", function(req, res) { //ändra till post senare
                 db.collection("posts", function(err, coll) {
                     coll.insert({text:req.params.post}, function(err, cursor) {
-                        res.sendStatus(200);
+                        res.sendStatus(400);
                     });       
                 });
             });
