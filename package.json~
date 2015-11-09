@@ -1,0 +1,22 @@
+{
+  "name": "plaskapp",
+  "version": "1.0.0",
+  "description": "api for plaskapp",
+  "main": "api.js",
+  "dependencies": {
+    "express": "^4.13.3",
+    "mongodb": "^2.0.48",
+    "nvm": "0.0.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.ida.liu.se:oscho707/Plaskapp.git"
+  },
+  "author": "oscho707",
+  "license": "ISC"
+}
