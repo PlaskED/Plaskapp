@@ -3,12 +3,7 @@ var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 var db_name = "plask";
 
-mongodb_connection_string = 'mongodb://127.0.0.1:27017/' + db_name;
-if(process.env.OPENSHIFT_MONGODB_DB_URL){
-  mongodb_connection_string = process.env.OPENSHIFT_MONGODB_DB_URL + db_name;
-}
-
-var url = mongodb_connection_string; //more readable
+var url = 'mongodb://127.0.0.1:27017/' + db_name;
 
 module.exports = (function() {
     'use strict';
