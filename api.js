@@ -20,7 +20,7 @@ module.exports = (function() {
                     coll.find({}, function(err, cursor) {
                         cursor.toArray(function(err, docs) {
                             res.send(docs);
-                            console.log("hahahaha");
+                            console.log("markus är sämst");
                         });
                     });
                 });

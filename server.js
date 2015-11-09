@@ -4,7 +4,7 @@ var api = require('./api');
 
 app.use('/api', api);
 
-var server_port = process.env.OPENSHIFT_NODEJS_PORT || 3000
+var server_port = 3000;
 var server_ip_address = '128.199.43.215'; // '127.0.0.1'
 //var server_ip_address = '127.0.0.1';
  
