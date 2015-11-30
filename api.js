@@ -11,6 +11,7 @@ module.exports = (function() {
     MongoClient.connect(url, function(err, db) {
         if (err) {
             console.log("error connecting to DB");
+	    //db.sendStatus(404);
             throw err;
         }
         else
@@ -19,8 +20,12 @@ module.exports = (function() {
                 db.collection("posts", function(err, coll) {
                     coll.find({}, function(err, cursor) {
                         cursor.toArray(function(err, docs) {
-                            res.send(docs);
-                            console.log("markus är sämst");
+			    if (docs) {
+				res.send(docs);
+			    }
+			    else {
+				res.sendStatus(404);
+			    }
                         });
                     });
                 });
@@ -36,10 +41,10 @@ module.exports = (function() {
                 });
             });
 
-            api.get("/add/:post", function(req, res) { //ändra till post senare
+            api.post("/add/:post", function(req, res) {
                 db.collection("posts", function(err, coll) {
                     coll.insert({text:req.params.post}, function(err, cursor) {
-                        res.sendStatus(400);
+                        res.sendStatus(200);
                     });       
                 });
             });
