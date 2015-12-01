@@ -41,15 +41,23 @@ module.exports = (function() {
                 });
             });
 
-            api.get("/add/:post", function(req, res) {
+            api.post("/add", function(req, res) {
                 db.collection("posts", function(err, coll) {
-                    coll.insert({text:req.params.post}, function(err, cursor) {
-                        res.sendStatus(200);
-                    });       
-                });
-            });
-        }
-    });
+		    var text = req.body.text;
+		    var x_loc = req.body.xloc;
+		    var y_loc = req.body.yloc;
+                    coll.insert({"text":text, "x_loc":xloc, "y_loc":yloc}, function(err, cursor) {
+			if (cursor) {
+                            res.sendStatus(200);
+			}
+			else {
+			    res.sendStatus(409);
+			}
+		    });
+		});
+	    });
+
+	});
                 
     return api;
 }) ();
