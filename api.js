@@ -42,6 +42,7 @@ module.exports = (function() {
             });
 
             api.post("/add", function(req, res) {
+		console.log(req.body);
                 db.collection("posts", function(err, coll) {
 		    console.log(req.body);
 		    var text = req.body.text;
