@@ -41,7 +41,7 @@ module.exports = (function() {
                 });
             });
 
-            api.post("/add/:post", function(req, res) {
+            api.get("/add/:post", function(req, res) {
                 db.collection("posts", function(err, coll) {
                     coll.insert({text:req.params.post}, function(err, cursor) {
                         res.sendStatus(200);
