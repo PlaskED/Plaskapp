@@ -4,7 +4,7 @@ var api = require('./api');
 var bodyParser = require("body-parser");
 
 app.use('/api', api);
-app.use(bodyParser.urlencoded({ extended: false }));
+//app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 var server_port = 3000;
