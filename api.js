@@ -43,10 +43,11 @@ module.exports = (function() {
 
             api.post("/add", function(req, res) {
                 db.collection("posts", function(err, coll) {
+		    console.log(req.body);
 		    var text = req.body.text;
-		    var x_loc = req.body.xloc;
-		    var y_loc = req.body.yloc;
-                    coll.insert({"text":text, "x_loc":xloc, "y_loc":yloc}, function(err, cursor) {
+		    var lat = req.body.lat;
+		    var lng = req.body.lng;
+                    coll.insert({"text":text, "lat":lat, "lng":lng}, function(err, cursor) {
 			if (cursor) {
                             res.sendStatus(200);
 			}
