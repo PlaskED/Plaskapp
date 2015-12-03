@@ -48,7 +48,8 @@ module.exports = (function() {
 		    var text = req.body.text;
 		    var lat = req.body.lat;
 		    var lng = req.body.lng;
-                    coll.insert({"text":text, "lat":lat, "lng":lng}, function(err, cursor) {
+		    var likes = req.body.lng;
+                    coll.insert({"text":text, "lat":lat, "lng":lng, "likes":likes}, function(err, cursor) {
 			if (cursor) {
                             res.sendStatus(200);
 			}
