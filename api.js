@@ -11,7 +11,7 @@ module.exports = (function() {
         } else {
             api.get("/getposts", function(req, res) {
 		database.getPosts(function(result){
-                    //result.reverse();
+                    result.reverse();
                     res.send(result);
                 });
             });
