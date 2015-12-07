@@ -24,7 +24,16 @@ var addPost = function(text, lat, lng, likes, addCB) {
             addCB(err, doc);
 	});
     });
-};
+}
+
+var ratePost = function(pid, likes, op) {
+    if (op == "up") {
+	module.exports.posts.update({"pid": pid}, {$set: {"likes": likes+1}});
+    }
+    else if (op == "down") {
+	module.exports.posts.update({"pid": pid}, {$set: {"likes": likes-1}});
+    }
+};;
 
 var generatePID = function(pidCB) {
     module.exports.posts.find({}, function(err, cursor) {
@@ -50,6 +59,7 @@ module.exports.init = function (onErrorCB) {
 		module.exports.posts = coll;
 		module.exports.addPost = addPost;
 		module.exports.getPosts = getPosts;
+		module.exports.ratePost = ratePost;
 		module.exports.generateID = generatePID;
 		onErrorCB(err);
             }

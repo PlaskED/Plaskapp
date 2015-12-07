@@ -31,6 +31,21 @@ module.exports = (function() {
 		    }
 		});
 	    });
+
+	    api.post("/rate", function(req, res) {
+		console.log(req.body);
+		var pid = req.body.pid;
+		var likes = req.body.likes;
+		var op = req.body.op;
+		database.ratePost(pid, likes, op, function(err, doc) {
+                    if (err) {
+                        res.sendStatus(409);
+                    }
+		    else {
+			res.sendStatus(200);
+		    }
+		});
+	    });
 	}
     });
     return api;
