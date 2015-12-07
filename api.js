@@ -8,12 +8,10 @@ module.exports = (function() {
     database.init(function(err) {
         if (err) {
             throw err;
-        }
-        else
-        {
+        } else {
             api.get("/getposts", function(req, res) {
 		database.getPosts(function(result){
-                    result.reverse();
+                    //result.reverse();
                     res.send(result);
                 });
             });
@@ -23,7 +21,7 @@ module.exports = (function() {
 		var text = req.body.text;
 		var lat = req.body.lat;
 		var lng = req.body.lng;
-		var likes = "0";
+		var likes = 0;
 		database.addPost(text, lat, lng, likes, function(err, doc) {
                     if (err) {
                         res.sendStatus(409);

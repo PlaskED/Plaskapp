@@ -5,6 +5,7 @@ var url = 'mongodb://localhost:27017/plask';
 var getPosts = function(resCB) {
     module.exports.posts.find({}, function(err, cursor){
         cursor.toArray(function(err, docs) {
+	    console.log(docs);
             resCB(docs); 
         });
     });
@@ -29,7 +30,7 @@ var generatePID = function(pidCB) {
     module.exports.posts.find({}, function(err, cursor) {
         cursor.toArray(function(err, docs){
             if(!docs[0]) {
-                pidCB(0);
+                pidCB(1);
             }
             else {
                 pidCB(parseInt(docs[docs.length - 1].pid) + 1);
