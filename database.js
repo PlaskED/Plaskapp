@@ -28,10 +28,12 @@ var addPost = function(text, lat, lng, likes, addCB) {
 
 var ratePost = function(pid, likes, op) {
     if (op == "up") {
-	module.exports.posts.update({"pid": pid}, {$set: {"likes": likes+1}});
+	newLikes = likes+1;
+	module.exports.posts.update({"pid": pid}, {$set: {"likes": newLikes}});
     }
     else if (op == "down") {
-	module.exports.posts.update({"pid": pid}, {$set: {"likes": likes-1}});
+	newLikes = likes-1;
+	module.exports.posts.update({"pid": pid}, {$set: {"likes": newLikes}});
     }
 };;
 
