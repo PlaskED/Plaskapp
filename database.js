@@ -18,7 +18,7 @@ var addPost = function(text, lat, lng, likes, addCB) {
             lat: lat,
             lng: lng,
             likes: likes,
-            id: id,
+            pid: pid,
         }, function (err, doc) {
             addCB(err, doc);
 	});
