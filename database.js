@@ -11,6 +11,13 @@ var getPosts = function(resCB) {
     });
 };
 
+var getPopular = function(resCB) {
+    module.exports.posts.find({ $query: {}, $orderby: { likes : -1 } }, function(err,cursor) {
+	cursor.limit(10).toArray(function(err,docs) {
+	    resCB(docs);
+	});
+    });
+};
 
 var addPost = function(text, lat, lng, likes, addCB) {
     generatePID(function (pid) {
@@ -59,8 +66,9 @@ module.exports.init = function (onErrorCB) {
 		onErrorCB(err);
             } else {
 		module.exports.posts = coll;
-		module.exports.addPost = addPost;
 		module.exports.getPosts = getPosts;
+		module.exports.getPopular = getPopular;
+		module.exports.addPost = addPost;
 		module.exports.ratePost = ratePost;
 		module.exports.generateID = generatePID;
 		onErrorCB(err);

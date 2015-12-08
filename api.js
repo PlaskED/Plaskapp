@@ -16,6 +16,12 @@ module.exports = (function() {
                 });
             });
 
+	    api.get("/popular", function(req, res) {
+		database.getPopular(function(result){
+                    res.send(result);
+                });
+            });
+
             api.post("/add", function(req, res) {
 		console.log(req.body);
 		var text = req.body.text;
