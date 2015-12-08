@@ -2,7 +2,7 @@ var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 var url = 'mongodb://localhost:27017/plask';
 
-var getPosts = function(resCB) {
+var getAll = function(resCB) {
     module.exports.posts.find({}, function(err, cursor){
         cursor.toArray(function(err, docs) {
 	    console.log(docs);
@@ -16,6 +16,14 @@ var getPopular = function(resCB) {
 	cursor.limit(10).toArray(function(err,docs) {
 	    resCB(docs);
 	});
+    });
+};
+
+var getPost = function(id, resCB) {
+    module.exports.posts.find({pid:id}, function(err, cursor){
+        cursor.limit(1).toArray(function(err, docs) {
+            resCB(docs); 
+        });
     });
 };
 
@@ -66,8 +74,9 @@ module.exports.init = function (onErrorCB) {
 		onErrorCB(err);
             } else {
 		module.exports.posts = coll;
-		module.exports.getPosts = getPosts;
+		module.exports.getAll = getAll;
 		module.exports.getPopular = getPopular;
+		module.exports.getPost = getPost;
 		module.exports.addPost = addPost;
 		module.exports.ratePost = ratePost;
 		module.exports.generateID = generatePID;

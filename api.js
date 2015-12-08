@@ -9,9 +9,17 @@ module.exports = (function() {
         if (err) {
             throw err;
         } else {
-            api.get("/getposts", function(req, res) {
-		database.getPosts(function(result){
+            api.get("/getall", function(req, res) {
+		database.getAll(function(result){
                     result.reverse();
+                    res.send(result);
+                });
+            });
+
+	    api.get("/getpost/:id", function(req, res) {
+		var pid = parseInt(req.params.id);
+		console.log(pid);
+		database.getPost(pid, function(result){
                     res.send(result);
                 });
             });
@@ -23,7 +31,6 @@ module.exports = (function() {
             });
 
             api.post("/add", function(req, res) {
-		console.log(req.body);
 		var text = req.body.text;
 		var lat = req.body.lat;
 		var lng = req.body.lng;
@@ -39,7 +46,6 @@ module.exports = (function() {
 	    });
 
 	    api.post("/rate", function(req, res) {
-		console.log(req.body);
 		var pid = req.body.pid;
 		var likes = req.body.likes;
 		var op = req.body.op;
