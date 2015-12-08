@@ -18,7 +18,6 @@ module.exports = (function() {
 
 	    api.get("/getpost/:id", function(req, res) {
 		var pid = parseInt(req.params.id);
-		console.log(pid);
 		database.getPost(pid, function(result){
                     res.send(result);
                 });

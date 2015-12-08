@@ -5,7 +5,6 @@ var url = 'mongodb://localhost:27017/plask';
 var getAll = function(resCB) {
     module.exports.posts.find({}, function(err, cursor){
         cursor.toArray(function(err, docs) {
-	    console.log(docs);
             resCB(docs); 
         });
     });
@@ -20,10 +19,16 @@ var getPopular = function(resCB) {
 };
 
 var getPost = function(id, resCB) {
-    module.exports.posts.find({pid:id}, function(err, cursor){
-        cursor.limit(1).toArray(function(err, docs) {
-            resCB(docs); 
-        });
+    getAll(function(docs) {
+	console.log(docs.length);
+	if (id > docs.length) {
+	    id = 1;
+	}
+	module.exports.posts.find({pid:id}, function(err,cursor) {
+	    cursor.limit(1).toArray(function(err, doc) {
+		resCB(doc);
+	    });
+	});
     });
 };
 
