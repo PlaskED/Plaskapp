@@ -44,18 +44,33 @@ var addPost = function(text, lat, lng, likes, addCB) {
             addCB(err, doc);
 	});
     });
-}
+};
 
-var ratePost = function(pid, likes, op) {
+var ratePost = function(pid, likes, op, rateCB) {
     if (op == "up") {
 	var newLikes = likes+1;
-	module.exports.posts.update({"pid": pid}, {$set: {"likes": newLikes}});
     }
     else if (op == "down") {
 	var newLikes = likes-1;
-	module.exports.posts.update({"pid": pid}, {$set: {"likes": newLikes}});
     }
-};;
+    
+    if (newLikes <= -3) {
+	removePost(pid, function(err, removeCB) {
+	    rateCB();
+	});
+    }
+    else {
+	module.exports.posts.update({"pid": pid}, {$set: {"likes": newLikes}});
+	rateCB();;
+    }
+};
+
+var removePost = function(pid, removeCB) {
+    module.exports.posts.deleteOne({"pid":pid}, function(err, result) {
+	console.log("removed: "+result);
+	removeCB();
+    });
+};
 
 var generatePID = function(pidCB) {
     module.exports.posts.find({}, function(err, cursor) {
@@ -84,6 +99,7 @@ module.exports.init = function (onErrorCB) {
 		module.exports.getPost = getPost;
 		module.exports.addPost = addPost;
 		module.exports.ratePost = ratePost;
+		module.exports.removePost = removePost;
 		module.exports.generateID = generatePID;
 		onErrorCB(err);
             }
