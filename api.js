@@ -17,8 +17,8 @@ module.exports = (function() {
             });
 
 	    api.get("/getlocal", function(req, res) {
-		database.getLocal(function(result){
-                    result.reverse();
+		var coords = [req.body.lng, req.body.lat];
+		database.getLocal(coords, function(result){
                     res.send(result);
                 });
             });
