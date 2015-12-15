@@ -5,8 +5,27 @@ var url = 'mongodb://localhost:27017/plask';
 var getAll = function(resCB) {
     module.exports.posts.find({}, function(err, cursor){
         cursor.toArray(function(err, docs) {
-            resCB(docs); 
+	    for (var i=0 ; i < docs.length ; i++) {
+		delete docs[i].location
+	    }
+	    resCB(docs); 
         });
+    });
+};
+
+var getLocal = function(coords, resCB) {
+    module.exports.posts.find({
+        location: {
+            '$nearSphere': {
+                '$geometry': {
+                    type: "Point",
+                    coordinates: [coords[1], coords[0]]
+                },
+                '$maxDistance': 10000
+            }
+        }
+    }, function(err, cursor){
+        cursor.toArray(resCB);
     });
 };
 
@@ -26,6 +45,7 @@ var getPost = function(id, resCB) {
 	}
 	module.exports.posts.find({pid:id}, function(err,cursor) {
 	    cursor.limit(1).toArray(function(err, doc) {
+		delete doc[0].location;
 		resCB(doc);
 	    });
 	});
@@ -33,15 +53,18 @@ var getPost = function(id, resCB) {
 };
 
 var addPost = function(text, lat, lng, likes, addCB) {
+    coords_geojson = [lng, lat];
+    geojson_loc = { "type" : "Point", "coordinates" : coords_geojson };
     generatePID(function (pid) {
         module.exports.posts.insert({
             text: text,
-            lat: lat,
-            lng: lng,
+            location: geojson_loc,
             likes: likes,
             pid: pid,
         }, function (err, doc) {
-            addCB(err, doc);
+	    module.exports.posts.ensureIndex({location: "2dsphere"},  function(ind_err, ind_doc) {
+		addCB(err, doc);
+            });
 	});
     });
 };
@@ -95,6 +118,7 @@ module.exports.init = function (onErrorCB) {
             } else {
 		module.exports.posts = coll;
 		module.exports.getAll = getAll;
+		module.exports.getLocal = getLocal;
 		module.exports.getPopular = getPopular;
 		module.exports.getPost = getPost;
 		module.exports.addPost = addPost;
