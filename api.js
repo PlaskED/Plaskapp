@@ -16,6 +16,13 @@ module.exports = (function() {
                 });
             });
 
+	    api.get("/getlocal", function(req, res) {
+		database.getLocal(function(result){
+                    result.reverse();
+                    res.send(result);
+                });
+            });
+
 	    api.get("/getpost/:id", function(req, res) {
 		var pid = parseInt(req.params.id);
 		database.getPost(pid, function(result){
