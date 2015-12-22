@@ -41,7 +41,7 @@ module.exports = (function() {
             api.post("/add", function(req, res) {
 		var text = req.body.text;
 		var lat = parseFloat(req.body.lat);
-		var lng = parseFloat(freq.body.lng);
+		var lng = parseFloat(req.body.lng);
 		var likes = 0;
 		console.log(req.body);
 		database.addPost(text, lat, lng, likes, function(err, doc) {
