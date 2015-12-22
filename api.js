@@ -16,9 +16,9 @@ module.exports = (function() {
                 });
             });
 
-	    api.get("/getlocal/:lng/:lat", function(req, res) {
-		var coords = [parseInt(req.params.lng), 
-			      parseInt(req.params.lat)];
+	    api.get("/getlocal", function(req, res) {
+		var coords = [req.body.lng, req.body.lat];
+		console.log(coords);
 		database.getLocal(coords, function(result){
                     res.send(result);
                 });
