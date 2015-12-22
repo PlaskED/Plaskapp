@@ -14,14 +14,14 @@ var getAll = function(resCB) {
 };
 
 var getLocal = function(coords, resCB) {
-    console.log(coords[1]);
     console.log(coords[0]);
+    console.log(coords[1]);
     module.exports.posts.find({
         location: {
             '$nearSphere': {
                 '$geometry': {
                     type: "Point",
-                    coordinates: [coords[1], coords[0]]
+                    coordinates: [coords[0], coords[1]]
                 },
                 '$maxDistance': 10000
             }
