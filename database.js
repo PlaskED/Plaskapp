@@ -24,8 +24,13 @@ var getLocal = function(coords, resCB) {
                 '$maxDistance': 10000
             }
         }
-    }, function(err, cursor){
-        cursor.toArray(resCB);
+    }, function(err, cursor) {
+	cursor.toArray(function(err, docs) {
+	    if(err) {
+		resCB();
+	    }
+	    resCB(docs);
+	});
     });
 };
 
@@ -54,7 +59,7 @@ var getPost = function(id, resCB) {
 
 var addPost = function(text, lat, lng, likes, addCB) {
     coords_geojson = [lng, lat];
-    geojson_loc = { "type" : "Point", "coordinates" : coords_geojson };
+    geojson_loc = { type : "Point", coordinates : coords_geojson };
     generatePID(function (pid) {
         module.exports.posts.insert({
             text: text,
@@ -64,6 +69,7 @@ var addPost = function(text, lat, lng, likes, addCB) {
         }, function (err, doc) {
 	    module.exports.posts.ensureIndex({location: "2dsphere"},  function(ind_err, ind_doc) {
 		addCB(err, doc);
+		
             });
 	});
     });
