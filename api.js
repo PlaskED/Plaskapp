@@ -19,7 +19,6 @@ module.exports = (function() {
 	    api.get("/getlocal/:lng/:lat", function(req, res) {
 		var coords = [parseFloat(req.params.lng), 
 			      parseFloat(req.params.lat)];
-		console.log(coords);
 		database.getLocal(coords, function(result){
                     res.send(result);
                 });
@@ -28,6 +27,7 @@ module.exports = (function() {
 	    api.get("/getpost/:id", function(req, res) {
 		var pid = parseInt(req.params.id);
 		database.getPost(pid, function(result){
+		    result.reverse();
                     res.send(result);
                 });
             });
