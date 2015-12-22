@@ -20,6 +20,7 @@ module.exports = (function() {
 		var coords = [parseFloat(req.params.lng), 
 			      parseFloat(req.params.lat)];
 		database.getLocal(coords, function(result){
+		    result.reverse();
                     res.send(result);
                 });
             });
