@@ -26,8 +26,8 @@ var getLocal = function(coords, resCB) {
         }
     }, function(err, cursor) {
 	cursor.toArray(function(err, docs) {
-	    if(err) {
-		resCB();
+	    for (var i=0 ; i < docs.length ; i++) {
+		delete docs[i].location
 	    }
 	    resCB(docs);
 	});
