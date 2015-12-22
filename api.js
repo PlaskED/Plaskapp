@@ -16,8 +16,9 @@ module.exports = (function() {
                 });
             });
 
-	    api.get("/getlocal", function(req, res) {
-		var coords = [req.body.lng, req.body.lat];
+	    api.get("/getlocal/:lng/:lat", function(req, res) {
+		var coords = [parseFloat(req.params.lng), 
+			      parseFloat(req.params.lat)];
 		console.log(coords);
 		database.getLocal(coords, function(result){
                     res.send(result);
@@ -39,8 +40,8 @@ module.exports = (function() {
 
             api.post("/add", function(req, res) {
 		var text = req.body.text;
-		var lat = req.body.lat;
-		var lng = req.body.lng;
+		var lat = parseFloat(req.body.lat);
+		var lng = parseFloat(freq.body.lng);
 		var likes = 0;
 		database.addPost(text, lat, lng, likes, function(err, doc) {
                     if (err) {
