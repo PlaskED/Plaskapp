@@ -75,11 +75,11 @@ var addPost = function(text, lat, lng, likes, addCB) {
     });
 };
 
-var ratePost = function(pid, likes, upVote, rateCB) {
-    if (upVote) {
+var ratePost = function(pid, likes, op, rateCB) {
+    if (op == "up") {
 	var newLikes = likes+1;
     }
-    else {
+    else if (op == "down") {
 	var newLikes = likes-1;
     }
     
