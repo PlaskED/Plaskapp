@@ -43,6 +43,7 @@ module.exports = (function() {
 		var lat = parseFloat(req.body.lat);
 		var lng = parseFloat(freq.body.lng);
 		var likes = 0;
+		console.log(req.body);
 		database.addPost(text, lat, lng, likes, function(err, doc) {
                     if (err) {
                         res.sendStatus(409);
