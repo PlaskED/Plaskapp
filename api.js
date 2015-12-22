@@ -58,7 +58,7 @@ module.exports = (function() {
 	    api.post("/rate", function(req, res) {
 		var pid = req.body.pid;
 		var likes = req.body.likes;
-		var upVote = req.body.upVote;
+		var op = req.body.op;
 		database.ratePost(pid, likes, op, function(err, doc) {
                     if (err) {
                         res.sendStatus(409);
