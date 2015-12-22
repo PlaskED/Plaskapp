@@ -14,6 +14,8 @@ var getAll = function(resCB) {
 };
 
 var getLocal = function(coords, resCB) {
+    console.log(coords[1]);
+    console.log(coords[0]);
     module.exports.posts.find({
         location: {
             '$nearSphere': {
@@ -26,6 +28,7 @@ var getLocal = function(coords, resCB) {
         }
     }, function(err, cursor) {
 	cursor.toArray(function(err, docs) {
+	    console.log(docs);
 	    if(err) {
 		resCB();
 	    }
