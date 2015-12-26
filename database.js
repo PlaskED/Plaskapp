@@ -21,7 +21,6 @@ var getAll = function(lpid, resCB) {
     else {
 	module.exports.posts.find({ pid: { $gt: lpid } }, function(err, cursor){
             cursor.limit(10).toArray(function(err, docs) {
-		docs.reverse();
 		module.exports.posts.findOne({ $query: {}, $orderby: { pid : -1 } }, function(err,ndoc) {
 		    if (docs.length < 10) {
 			docs.unshift(ndoc);
