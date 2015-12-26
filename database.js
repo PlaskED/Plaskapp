@@ -57,7 +57,6 @@ var getPopular = function(resCB) {
 	cursor.limit(10).toArray(function(err,docs) {
 	    for (var i=0 ; i < docs.length ; i++) {
 		delete docs[i].location
-		delete docs[i]._id
 	    }
 	    resCB(docs);
 	});
