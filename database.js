@@ -20,7 +20,7 @@ var getAll = function(lpid, resCB) {
 	});
     }
     else {
-	module.exports.posts.find({ $query: {}, $orderby: { pid : lpid } }, function(err, cursor){
+	module.exports.posts.find({ $query: {}, $orderby: { pid : 0 } }, function(err, cursor){
             cursor.limit(10).toArray(function(err, docs) {
 		for (var i=0 ; i < docs.length ; i++) {
 		    delete docs[i].location
