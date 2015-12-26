@@ -10,7 +10,6 @@ module.exports = (function() {
         } else {
             api.get("/getall/:lpid", function(req, res) {
 		var lpid = parseInt(req.params.lpid);
-		console.log(lpid);
 		database.getAll(lpid,function(result){
                     res.send(result);
                 });
