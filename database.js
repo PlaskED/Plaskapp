@@ -21,7 +21,10 @@ var getAll = function(lpid, resCB) {
     else {
 	module.exports.posts.find({ pid: { $gt: lpid } }, function(err, cursor){
             cursor.limit(10).toArray(function(err, docs) {
-		docs.reverse();
+		//docs.reverse();
+		for (var i=0 ; i < docs.length ; i++) {
+			delete docs[i].location
+		}
 		resCB(docs);
             });
 	});
