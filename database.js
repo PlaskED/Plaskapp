@@ -21,16 +21,8 @@ var getAll = function(lpid, resCB) {
     else {
 	module.exports.posts.find({ pid: { $gt: lpid } }, function(err, cursor){
             cursor.limit(10).toArray(function(err, docs) {
-		module.exports.posts.findOne({ $query: {}, $orderby: { pid : -1 } }, function(err,ndoc) {
-		    docs.reverse();
-		    if (docs.length < 10) {
-			docs.unshift(ndoc);
-		    }
-		    for (var i=0 ; i < docs.length ; i++) {
-			delete docs[i].location
-		    }
-		    resCB(docs);
-		});
+		docs.reverse();
+		resCB(docs);
             });
 	});
     }
