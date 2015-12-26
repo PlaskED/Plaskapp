@@ -23,7 +23,7 @@ var getAll = function(lpid, resCB) {
 	module.exports.posts.find({ $query: {}, $orderby: { pid : lpid } }, function(err, cursor){
             cursor.limit(10).toArray(function(err, docs) {
 		for (var i=0 ; i < docs.length ; i++) {
-			delete docs[i].location
+		    delete docs[i].location
 		}
 		docs.reverse();
 		resCB(docs);
