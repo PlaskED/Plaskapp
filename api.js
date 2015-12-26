@@ -1,6 +1,5 @@
 var express = require('express');
 var database = require('./database');
-//var url = 'mongodb://127.0.0.1:27017/' + db_name;
 
 module.exports = (function() {
     'use strict';
@@ -9,9 +8,9 @@ module.exports = (function() {
         if (err) {
             throw err;
         } else {
-            api.get("/getall", function(req, res) {
-		database.getAll(function(result){
-                    result.reverse();
+            api.get("/getall/:lpid", function(req, res) {
+		var lpid = parseInt(req.params.lpid);
+		database.getAll(lpid,function(result){
                     res.send(result);
                 });
             });
