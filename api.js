@@ -11,6 +11,7 @@ module.exports = (function() {
             api.get("/getall/:lpid", function(req, res) {
 		var lpid = parseInt(req.params.lpid);
 		database.getAll(lpid,function(result){
+		    result.reverse();
                     res.send(result);
                 });
             });
