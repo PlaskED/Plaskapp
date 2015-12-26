@@ -2,18 +2,18 @@ var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 var url = 'mongodb://localhost:27017/plask';
 
+
 var getAll = function(lpid, resCB) {
     if (lpid != 0) {
-	module.exports.posts.find({ pid: { $lt: lpid } }, function(err, cursor){
+	module.exports.posts.find({ query: {pid: { $lt: lpid }}, $orderby: {pid: -1} }, function(err, cursor){
             cursor.limit(10).toArray(function(err, docs) {
 		module.exports.posts.findOne({ $query: {}, $orderby: { pid : -1 } }, function(err,ndoc) {
 		    if (docs.length < 10) {
-			docs.unshift(ndoc);
+			docs.push(ndoc);
 		    }
 		    for (var i=0 ; i < docs.length ; i++) {
 			delete docs[i].location
 		    }
-		    docs.reverse();
 		    resCB(docs);
 		});
             });
