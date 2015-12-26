@@ -8,7 +8,7 @@ var getAll = function(lpid, resCB) {
             cursor.limit(10).toArray(function(err, docs) {
 		module.exports.posts.findOne({ $query: {}, $orderby: { pid : -1 } }, function(err,ndoc) {
 		    if (docs.length < 10) {
-			docs.push(ndoc);
+			docs.unshift(ndoc);
 		    }
 		    for (var i=0 ; i < docs.length ; i++) {
 			delete docs[i].location
