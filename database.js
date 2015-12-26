@@ -55,6 +55,9 @@ var getLocal = function(coords, resCB) {
 var getPopular = function(resCB) {
     module.exports.posts.find({ $query: {}, $orderby: { likes : -1 } }, function(err,cursor) {
 	cursor.limit(10).toArray(function(err,docs) {
+	    for (var i=0 ; i < docs.length ; i++) {
+		delete docs[i].location
+	    }
 	    resCB(docs);
 	});
     });
