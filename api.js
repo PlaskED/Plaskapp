@@ -55,7 +55,7 @@ module.exports = (function() {
 	    });
 
 	    api.post("/rate", function(req, res) {
-		var token = headers.token;
+		var token = req.headers.token;
 		var pid = req.body.pid;
 		var likes = req.body.likes;
 		var op = req.body.op;
