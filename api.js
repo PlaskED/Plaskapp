@@ -21,7 +21,7 @@ module.exports = (function() {
 			     return done(err, user);
 			  });
 		 }
-	   ));
+			);
 
 	    api.post("/auth", function(req, res) {
 		passport.authenticate("google-id-token", function(err, user) {
