@@ -2,7 +2,7 @@ var express = require('express');
 var database = require('./database');
 var passport = require('passport');
 
-var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var GoogleStrategy = require('passport-google-id-token');
 var GOOGLE_CLIENT_ID = "903897751193-ribbhe2r2st90dd7knapnjq2tsesfh8g.apps.googleusercontent.com";
 var GOOGLE_CLIENT_SECRET = "ffrMq77h47JF7ZjDcnt4fbsY";
 
@@ -16,7 +16,6 @@ module.exports = (function() {
 	    passport.use(new GoogleStrategy({
 		clientID: GOOGLE_CLIENT_ID,
 		clientSecret: GOOGLE_CLIENT_SECRET,
-		callbackURL: "http://128.199.43.215:3000/auth/google/callback"
 	    },
 		 function(accessToken, refreshToken, profile, done) {
 		     User.findOrCreate({ googleId: profile.id }, function (err, user) {
@@ -25,18 +24,17 @@ module.exports = (function() {
 		 }
 	     ));
 
-	    api.get('/auth/google',
-		    passport.authenticate('google', { scope: 'https://www.googleapis.com/auth/plus.login' }));
-
-	    api.get('/auth/google/callback', 
-		    passport.authenticate('google', { failureRedirect: '/login' }),
-		    function(req, res) {
-			// Successful authentication, redirect home.
-			console.log(req);
-			console.log(res);
-			res.sendStatus(200);
-			//res.redirect('/');
+	    api.get('/auth', function(req, res, next) {
+		passport.authenticate(new GoogleStrategy, function(err, user, info) {
+		    if (err) { return next(err); }
+		    if (!user) { return res.sendStatus(400); }
+		    req.logIn(user, function(err) {
+			if (err) { return next(err); }
+			console.log(user.username);
+			return res.sendStatus(200);
 		    });
+		})(req, res, next);
+	    });
 
             api.get("/getall/:lpid", function(req, res) {
 		var lpid = parseInt(req.params.lpid);
