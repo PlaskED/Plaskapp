@@ -15,18 +15,17 @@ module.exports = (function() {
         } else {
 	    passport.use(new GoogleTokenStrategy({
 		clientID: GOOGLE_CLIENT_ID//,
-	//	getGoogleCerts: customGetGoogleCerts
 	    },
-						 function(parsedToken, googleId, done) {
-						     User.findOrCreate({ googleId: googleId }, function (err, user) {
-							 return done(err, user);
-						     });
-						 }
-						));
+		 function(parsedToken, googleId, done) {
+			 User.findOrCreate({ googleId: googleId }, function (err, user) {
+			     return done(err, user);
+			  });
+		 }
+	   ));
 
 	    api.post("/auth", function(req, res) {
 		passport.authenticate("google-id-token", function(req, res) {
-		    console.log(req.user);
+		    console.log(res);
 		    res.send(req.user? 200 : 401);
 		});
 	    });
