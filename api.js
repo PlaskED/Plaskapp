@@ -1,7 +1,8 @@
 var express = require('express');
 var database = require('./database');
 var passport = require('passport');
-var GoogleTokenStrategy = require('passport-google-id-token');
+
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var GOOGLE_CLIENT_ID = "903897751193-ribbhe2r2st90dd7knapnjq2tsesfh8g.apps.googleusercontent.com";
 var GOOGLE_CLIENT_SECRET = "ffrMq77h47JF7ZjDcnt4fbsY";
 
@@ -12,23 +13,30 @@ module.exports = (function() {
         if (err) {
             throw err;
         } else {
-	    passport.use(GoogleTokenStrategy,
-		 function(parsedToken, googleId, done) {
-			 User.findOrCreate({ googleId: googleId }, function (err, user) {
-			     if (!err) {
-				 console.log(user);
-			     }
-			     return done(err, user);
-			  });
+	    passport.use(new GoogleStrategy({
+		clientID: GOOGLE_CLIENT_ID,
+		clientSecret: GOOGLE_CLIENT_SECRET,
+		callbackURL: "http://128.199.43.215:3000/auth/google/callback"
+	    },
+		 function(accessToken, refreshToken, profile, done) {
+		     User.findOrCreate({ googleId: profile.id }, function (err, user) {
+			 return done(err, user);
+		     });
 		 }
-			);
+	     ));
 
-	    api.post("/auth", function(req, res) {
-		passport.authenticate("google-id-token", function(err, user) {
-		    console.log(user);
-		    res.send(req.user? 200 : 401);
-		});
-	    });
+	    api.get('/auth/google',
+		    passport.authenticate('google', { scope: 'https://www.googleapis.com/auth/plus.login' }));
+
+	    api.get('/auth/google/callback', 
+		    passport.authenticate('google', { failureRedirect: '/login' }),
+		    function(req, res) {
+			// Successful authentication, redirect home.
+			console.log(req);
+			console.log(res);
+			res.sendStatus(200);
+			//res.redirect('/');
+		    });
 
             api.get("/getall/:lpid", function(req, res) {
 		var lpid = parseInt(req.params.lpid);
