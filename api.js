@@ -14,11 +14,10 @@ module.exports = (function() {
             throw err;
         } else {
 	    passport.use(new GoogleTokenStrategy({
-		clientID: GOOGLE_CLIENT_ID//,
+		clientID: GOOGLE_CLIENT_ID
 	    },
 		 function(parsedToken, googleId, done) {
 			 User.findOrCreate({ googleId: googleId }, function (err, user) {
-			     console.log(user);
 			     return done(err, user);
 			  });
 		 }
@@ -26,7 +25,7 @@ module.exports = (function() {
 
 	    api.post("/auth", function(req, res) {
 		passport.authenticate("google-id-token", function(req, res) {
-		    console.log("auth");
+		    conolse.log(req.user);
 		    res.send(req.user? 200 : 401);
 		});
 	    });
