@@ -15,7 +15,6 @@ module.exports = (function() {
         } else {
 	    passport.use(new GoogleStrategy({
 		clientID: GOOGLE_CLIENT_ID,
-		clientSecret: GOOGLE_CLIENT_SECRET,
 	    },
 		 function(accessToken, refreshToken, profile, done) {
 		     User.findOrCreate({ googleId: profile.id }, function (err, user) {
@@ -24,7 +23,7 @@ module.exports = (function() {
 		 }
 	     ));
 
-	    api.get('/auth', function(req, res, next) {
+	    api.post('/auth', function(req, res, next) {
 		passport.authenticate(new GoogleStrategy, function(err, user, info) {
 		    if (err) { return next(err); }
 		    if (!user) { return res.sendStatus(400); }
