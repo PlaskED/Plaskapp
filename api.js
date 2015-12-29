@@ -18,14 +18,17 @@ module.exports = (function() {
 	    },
 		 function(parsedToken, googleId, done) {
 			 User.findOrCreate({ googleId: googleId }, function (err, user) {
+			     if (!err) {
+				 console.log(user);
+			     }
 			     return done(err, user);
 			  });
 		 }
 	   ));
 
 	    api.post("/auth", function(req, res) {
-		passport.authenticate("google-id-token", function(req, res) {
-		    console.log(req.user);
+		passport.authenticate("google-id-token", function(err, user) {
+		    console.log(user);
 		    res.send(req.user? 200 : 401);
 		});
 	    });
