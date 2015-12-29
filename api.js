@@ -1,5 +1,6 @@
 var express = require('express');
 var database = require('./database');
+var googleAuth = require('passport-google-id-token');
 
 module.exports = (function() {
     'use strict';
@@ -8,6 +9,13 @@ module.exports = (function() {
         if (err) {
             throw err;
         } else {
+	    api.post("/auth", function(req, res) {
+		passport.authenticate("google-id-token", function(req, res) {
+		    
+		    res.send(req.user? 200 : 401);
+		});
+	    });
+
             api.get("/getall/:lpid", function(req, res) {
 		var lpid = parseInt(req.params.lpid);
 		database.getAll(lpid,function(result){
