@@ -18,6 +18,7 @@ module.exports = (function() {
 	    },
 		 function(parsedToken, googleId, done) {
 			 User.findOrCreate({ googleId: googleId }, function (err, user) {
+			     console.log(user);
 			     return done(err, user);
 			  });
 		 }
