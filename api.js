@@ -2,7 +2,6 @@ var express = require('express');
 var database = require('./database');
 var passport = require('passport');
 var GoogleTokenStrategy = require('passport-google-id-token');
-//var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var GOOGLE_CLIENT_ID = "903897751193-ribbhe2r2st90dd7knapnjq2tsesfh8g.apps.googleusercontent.com";
 var GOOGLE_CLIENT_SECRET = "ffrMq77h47JF7ZjDcnt4fbsY";
 
@@ -13,9 +12,7 @@ module.exports = (function() {
         if (err) {
             throw err;
         } else {
-	    passport.use(new GoogleTokenStrategy({
-		clientID: GOOGLE_CLIENT_ID
-	    },
+	    passport.use(GoogleTokenStrategy,
 		 function(parsedToken, googleId, done) {
 			 User.findOrCreate({ googleId: googleId }, function (err, user) {
 			     if (!err) {
