@@ -96,6 +96,15 @@ var addPost = function(text, lat, lng, likes, addCB) {
     });
 };
 
+var addToken = function(token, addCB) {
+    var t = new Date.getTime();
+    module.exports.users.insert({
+        token_id: token,
+	last_call: t,
+	last_like: 0
+    });
+};
+
 var ratePost = function(pid, likes, op, rateCB) {
     if (op == "up") {
 	var newLikes = likes+1;
@@ -117,6 +126,13 @@ var ratePost = function(pid, likes, op, rateCB) {
 
 var removePost = function(pid, removeCB) {
     module.exports.posts.deleteOne({"pid":pid}, function(err, result) {
+	console.log("removed: "+result);
+	removeCB();
+    });
+};
+
+var removeToken = function(token, removeCB) {
+    module.exports.users.deleteOne({"token_id":token}, function(err, result) {
 	console.log("removed: "+result);
 	removeCB();
     });
@@ -149,8 +165,10 @@ module.exports.init = function (onErrorCB) {
 		module.exports.getPopular = getPopular;
 		module.exports.getPost = getPost;
 		module.exports.addPost = addPost;
+		module.exports.addToken = addToken;
 		module.exports.ratePost = ratePost;
 		module.exports.removePost = removePost;
+		module.exports.removeToken = removeToken;
 		module.exports.generateID = generatePID;
 		onErrorCB(err);
             }
