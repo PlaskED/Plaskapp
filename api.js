@@ -15,6 +15,7 @@ module.exports = (function() {
         } else {
 	    passport.use(new GoogleStrategy({
 		clientID: GOOGLE_CLIENT_ID,
+		clientSecret: GOOGLE_CLIENT_SECRET
 	    },
 		 function(accessToken, refreshToken, profile, done) {
 		     User.findOrCreate({ googleId: profile.id }, function (err, user) {
