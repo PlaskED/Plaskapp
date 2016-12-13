@@ -3,8 +3,8 @@ var database = require('./database');
 var passport = require('passport');
 
 var GoogleStrategy = require('passport-google-id-token');
-var GOOGLE_CLIENT_ID = "903897751193-ribbhe2r2st90dd7knapnjq2tsesfh8g.apps.googleusercontent.com";
-var GOOGLE_CLIENT_SECRET = "ffrMq77h47JF7ZjDcnt4fbsY";
+var GOOGLE_CLIENT_ID = "";
+var GOOGLE_CLIENT_SECRET = "";
 
 module.exports = (function() {
     'use strict';
